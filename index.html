@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullstack Developer Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6d28d9',
+            secondary: '#4c1d95',
+            darkBg: '#121212',
+            darkCard: '#1e1e1e',
+            accent: '#8b5cf6',
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style id="app-style">
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #121212;
+      color: #f3f4f6;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(109, 40, 217, 0.4) 0%, rgba(76, 29, 149, 0.1) 100%);
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+    }
+    
+    .tech-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .tech-icon:hover {
+      transform: scale(1.1);
+    }
+    
+    .btn-primary {
+      background-color: #6d28d9;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background-color: #5b21b6;
+    }
+    
+    .input-field {
+      background-color: #1e1e1e;
+      border: 1px solid #4b5563;
+      color: #f3f4f6;
+      transition: border-color 0.3s ease;
+    }
+    
+    .input-field:focus {
+      border-color: #8b5cf6;
+      outline: none;
+    }
+    
+    .hamburger div {
+      transition: all 0.3s ease;
+    }
+    
+    .open .hamburger-top {
+      transform: rotate(45deg) translateY(6px) translateX(6px);
+    }
+    
+    .open .hamburger-middle {
+      opacity: 0;
+    }
+    
+    .open .hamburger-bottom {
+      transform: rotate(-45deg) translateY(-6px) translateX(6px);
+    }
+    
+    .mobile-menu {
+      transition: all 0.5s ease-in-out;
+      clip-path: circle(0px at top right);
+    }
+    
+    .mobile-menu.open {
+      clip-path: circle(1000px at top right);
+    }
+    
+    .profile-img {
+      border: 4px solid #6d28d9;
+      filter: drop-shadow(0 0 10px rgba(109, 40, 217, 0.5));
+    }
+    
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background-color: #6d28d9;
+      margin-top: 8px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.7s ease-out forwards;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .animate-pulse {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body class="dark min-h-screen">
+  <!-- Header/Navigation -->
+  <header class="fixed w-full top-0 z-50 bg-darkBg bg-opacity-95 backdrop-blur-sm shadow-md">
+    <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="#hero" class="text-2xl font-bold text-white flex items-center">
+        <span class="text-accent">{'{'}</span>Dev<span class="text-accent">{'}'}</span>
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex space-x-8">
+        <a href="#about" class="text-gray-300 hover:text-accent transition">About</a>
+        <a href="#skills" class="text-gray-300 hover:text-accent transition">Skills</a>
+        <a href="#projects" class="text-gray-300 hover:text-accent transition">Projects</a>
+        <a href="#education" class="text-gray-300 hover:text-accent transition">Education</a>
+        <a href="#contact" class="text-gray-300 hover:text-accent transition">Contact</a>
+      </div>
+      
+      <!-- Mobile menu button -->
+      <button id="menu-btn" class="block md:hidden focus:outline-none">
+        <div class="hamburger flex flex-col justify-between w-6 h-5">
+          <div class="hamburger-top w-full h-0.5 bg-white"></div>
+          <div class="hamburger-middle w-full h-0.5 bg-white"></div>
+          <div class="hamburger-bottom w-full h-0.5 bg-white"></div>
+        </div>
+      </button>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-darkBg bg-opacity-95 flex flex-col items-center justify-center z-40 md:hidden">
+      <div class="flex flex-col space-y-8 text-xl">
+        <a href="#about" class="text-gray-300 hover:text-accent transition mobile-link">About</a>
+        <a href="#skills" class="text-gray-300 hover:text-accent transition mobile-link">Skills</a>
+        <a href="#projects" class="text-gray-300 hover:text-accent transition mobile-link">Projects</a>
+        <a href="#education" class="text-gray-300 hover:text-accent transition mobile-link">Education</a>
+        <a href="#contact" class="text-gray-300 hover:text-accent transition mobile-link">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="pt-28 pb-20 md:py-32 hero-gradient">
+    <div class="container mx-auto px-4 flex flex-col items-center">
+      <div class="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden mb-6 profile-img">
+        <img src="./assets/images/profile.png" alt="Mi foto de perfil" class="w-full h-full object-cover">
+      </div>
+      <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-center mb-4 animate-fade-in">Gonzalo Romano</h1>
+      <p class="text-xl md:text-2xl text-gray-300 text-center max-w-2xl mb-8 animate-fade-in">Fullstack Developer specializing in modern web applications and robust APIs</p>
+      <div class="flex gap-4">
+        <a href="#contact" class="btn-primary px-6 py-3 rounded-full font-medium hover:shadow-lg animate-fade-in">Contact Me</a>
+        <a href="#projects" class="bg-transparent border-2 border-accent px-6 py-3 rounded-full font-medium hover:bg-accent hover:bg-opacity-10 transition animate-fade-in">View Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 md:py-20 bg-darkBg">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-2xl md:text-3xl font-bold mb-12 text-center">About Me</h2>
+      <div class="max-w-3xl mx-auto text-gray-300 space-y-4">
+        <p class="text-lg">Hello! I'm a passionate fullstack developer with expertise in building modern web applications and robust APIs. I enjoy creating efficient, scalable, and user-friendly solutions that solve real-world problems.</p>
+        <p class="text-lg">With a strong foundation in both frontend and backend technologies, I can handle the entire development process from concept to deployment. I'm always eager to learn new technologies and improve my skills.</p>
+        <p class="text-lg">When I'm not coding, you can find me exploring new tech trends, contributing to open-source projects, or sharing my knowledge through tech blogs and community events.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="py-16 md:py-20 bg-darkCard">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-2xl md:text-3xl font-bold mb-12 text-center">Technologies & Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-8 md:gap-10 max-w-4xl mx-auto">
+        <!-- Java -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fab fa-java text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">Java</span>
+        </div>
+        
+        <!-- Spring Boot -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fas fa-leaf text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">Spring Boot</span>
+        </div>
+        
+        <!-- React -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fab fa-react text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">React</span>
+        </div>
+        
+        <!-- JavaScript -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fab fa-js-square text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">JavaScript</span>
+        </div>
+        
+        <!-- CSS -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fab fa-css3-alt text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">CSS</span>
+        </div>
+        
+        <!-- HTML5 -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fab fa-html5 text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">HTML5</span>
+        </div>
+        
+        <!-- Postman -->
+        <div class="tech-icon flex flex-col items-center">
+          <div class="w-16 h-16 md:w-20 md:h-20 bg-darkBg rounded-xl flex items-center justify-center mb-3">
+            <i class="fas fa-paper-plane text-4xl md:text-5xl text-accent"></i>
+          </div>
+          <span class="text-gray-300 text-sm md:text-base">Postman</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-16 md:py-20 bg-darkBg">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-2xl md:text-3xl font-bold mb-12 text-center">Projects</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Project 1 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">E-Commerce API</h3>
+          <p class="text-gray-400 mb-4">A robust RESTful API for e-commerce platforms with product management, cart functionality, and order processing.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Java</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Spring Boot</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">MySQL</span>
+          </div>
+          <a href="https://github.com/Gonzalor930" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+        
+        <!-- Project 2 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">Task Management System</h3>
+          <p class="text-gray-400 mb-4">Full-stack application for task management with user authentication, role-based permissions and real-time updates.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">React</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Spring Boot</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">PostgreSQL</span>
+          </div>
+          <a href="https://github.com/Gonzalor930/Notes-app" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+        
+        <!-- Project 3 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">Weather API Integration</h3>
+          <p class="text-gray-400 mb-4">Web application that integrates with weather APIs to provide forecasts, alerts, and historical weather data.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">JavaScript</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">HTML5</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">CSS</span>
+          </div>
+          <a href="https://github.com/Gonzalor930" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+        
+        <!-- Project 4 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">Authentication Microservice</h3>
+          <p class="text-gray-400 mb-4">Secure authentication microservice with JWT implementation, role-based access control, and OAuth integration.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Java</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Spring Security</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">MongoDB</span>
+          </div>
+          <a href="https://github.com/Gonzalor930" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+        
+        <!-- Project 5 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">Blog Platform API</h3>
+          <p class="text-gray-400 mb-4">Comprehensive API for blogging platforms with content management, user comments, and analytics features.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">Spring Boot</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">GraphQL</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">PostgreSQL</span>
+          </div>
+          <a href="https://github.com/" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+        
+        <!-- Project 6 -->
+        <div class="bg-darkCard p-6 rounded-xl shadow-lg card-hover">
+          <h3 class="text-xl font-semibold mb-2">Portfolio Website</h3>
+          <p class="text-gray-400 mb-4">Responsive personal portfolio website showcasing projects, skills and contact information with modern design.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">React</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">TailwindCSS</span>
+            <span class="px-3 py-1 bg-secondary bg-opacity-30 rounded-full text-xs">JavaScript</span>
+          </div>
+          <a href="https://github.com/Gonzalor930" target="_blank" class="flex items-center text-accent hover:text-white transition">
+            <i class="fab fa-github mr-2"></i> View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="py-16 md:py-20 bg-darkCard">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-2xl md:text-3xl font-bold mb-12 text-center">Education</h2>
+      
+      <div class="max-w-3xl mx-auto space-y-8">
+        <!-- Education Item 1 -->
+        <div class="bg-darkBg p-6 rounded-xl">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+            <div>
+              <h3 class="text-xl font-semibold">Master of Computer Science</h3>
+              <p class="text-accent">University of Technology</p>
+            </div>
+            <p class="text-gray-400 mt-2 md:mt-0">2022 - 2024</p>
+          </div>
+          <p class="text-gray-300 mt-3">Specialized in Software Engineering and Database Systems. Thesis on "Optimizing Microservices Architecture for E-commerce Platforms."</p>
+        </div>
+        
+        <!-- Education Item 2 -->
+        <div class="bg-darkBg p-6 rounded-xl">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+            <div>
+              <h3 class="text-xl font-semibold">Bachelor of Computer Science</h3>
+              <p class="text-accent">State University</p>
+            </div>
+            <p class="text-gray-400 mt-2 md:mt-0">2018 - 2022</p>
+          </div>
+          <p class="text-gray-300 mt-3">Graduated with honors. Focused on programming languages, algorithms, and web development.</p>
+        </div>
+        
+        <!-- Education Item 3 -->
+        <div class="bg-darkBg p-6 rounded-xl">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+            <div>
+              <h3 class="text-xl font-semibold">Full Stack Web Development Certificate</h3>
+              <p class="text-accent">Tech Academy</p>
+            </div>
+            <p class="text-gray-400 mt-2 md:mt-0">2021</p>
+          </div>
+          <p class="text-gray-300 mt-3">Intensive 6-month bootcamp covering modern web technologies including React, Node.js, and database management.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 md:py-20 bg-darkBg">
+    <div class="container mx-auto px-4">
+      <h2 class="section-title text-2xl md:text-3xl font-bold mb-12 text-center">Get in Touch</h2>
+      
+      <div class="max-w-3xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <!-- Contact Information -->
+        <div>
+          <h3 class="text-xl font-semibold mb-6">Contact Information</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-envelope text-accent"></i>
+              </div>
+              <a href="Gonzaromano35@gmail.com" class="text-gray-300 hover:text-accent transition">Gonzaromano35@gmail.com</a>
+            </div>
+            
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-phone text-accent"></i>
+              </div>
+              <a href="tel:+5492355577602" class="text-gray-300 hover:text-accent transition">+54 (2355) 577-602</a>
+            </div>
+            
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-primary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-map-marker-alt text-accent"></i>
+              </div>
+              <span class="text-gray-300">Buenos Aires, Argentina</span>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <h3 class="text-lg font-semibold mb-4">Connect with me</h3>
+            <div class="flex space-x-4">
+              <a href="javascript:void(0)" class="w-10 h-10 bg-darkCard rounded-full flex items-center justify-center text-accent hover:bg-primary hover:text-white transition">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="javascript:void(0)" class="w-10 h-10 bg-darkCard rounded-full flex items-center justify-center text-accent hover:bg-primary hover:text-white transition">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="javascript:void(0)" class="w-10 h-10 bg-darkCard rounded-full flex items-center justify-center text-accent hover:bg-primary hover:text-white transition">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="javascript:void(0)" class="w-10 h-10 bg-darkCard rounded-full flex items-center justify-center text-accent hover:bg-primary hover:text-white transition">
+                <i class="fab fa-dev"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div>
+          <h3 class="text-xl font-semibold mb-6">Send me a message</h3>
+          
+          <form action="https://formspree.io/f/xzzvzypw" method="POST" class="space-y-4">
+                  <input type="hidden" name="_subject" value="Nuevo mensaje desde Portfolio de Gonzalo">
+                  <input type="hidden" name="_captcha" value="false">
+
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-400 mb-1">Name</label>
+              <input type="text" id="name" name="name" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Your name" required>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-400 mb-1">Email</label>
+              <input type="email" id="email" name="email" class="input-field w-full px-4 py-3 rounded-lg" placeholder="your.email@example.com" required>
+            </div>
+            
+            <div>
+              <label for="subject" class="block text-sm font-medium text-gray-400 mb-1">Subject</label>
+              <input type="text" id="subject" name="subject" class="input-field w-full px-4 py-3 rounded-lg" placeholder="How can I help you?" required>
+            </div>
+            
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-400 mb-1">Message</label>
+              <textarea id="message" name="message" rows="4" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Your message..." required></textarea>
+            </div>
+            
+            <div>
+              <button type="submit" id="submit-btn" class="btn-primary w-full py-3 rounded-lg flex items-center justify-center">
+                <span>Send Message</span>
+                <i class="fas fa-paper-plane ml-2"></i>
+              </button>
+            </div>
+            
+            <div id="form-message" class="hidden p-4 rounded-lg mt-4"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-darkCard py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-accent">Designed & Developed by Gonzalo Romano</p>
+      <p class="text-gray-500 text-sm mt-2">&copy; 2025. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script id="app-script">
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.classList.toggle('overflow-hidden');
+    });
+    
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.classList.remove('overflow-hidden');
+      });
+    });
+    
+    // Intersection Observer for scroll animations
+    const sections = document.querySelectorAll('section');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+    
+    // Active navigation highlighting based on scroll
+    const navLinks = document.querySelectorAll('header nav a');
+    
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        
+        if (scrollY >= (sectionTop - 300)) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('text-accent');
+        link.classList.add('text-gray-300');
+        
+        if (link.getAttribute('href') === #${current}) {
+          link.classList.remove('text-gray-300');
+          link.classList.add('text-accent');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
